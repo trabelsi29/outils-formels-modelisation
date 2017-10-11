@@ -19,22 +19,22 @@ let inProgress = taskManager.places.filter{$0.name == "inProgress"}[0]
 
 // Execution de la gestionnaire des taches
 
-let t1 = create.fire(from: [taskPool: 0, processPool: 0, inProgress: 0])
-print("t1 (create) ",t1!)
-let t2 = spawn.fire(from: t1!)
-print("t2 (spawn) ",t2!)
-let t3 = spawn.fire(from: t2!)
-print("t3 (spawn)",t3!) 
+let m1 = create.fire(from: [taskPool: 0, processPool: 0, inProgress: 0])
+print("m1 (create) ",m1!)
+let m2 = spawn.fire(from: m1!)
+print("m2 (spawn) ",m2!)
+let m3 = spawn.fire(from: m2!)
+print("m3 (spawn)",m3!) 
 
-// t1 - t3 : creation d 1 jeton dans taskPool, et 2 jetons dans processPool
+// m1 - m3 : creation d 1 jeton dans taskPool, et 2 jetons dans processPool
 
-let t4 = exec.fire(from: t3!)
-print("t4 (exec) ",t4!)
-let t5 = exec.fire(from: t4!)
-print("t5 (exec)",t5!) 
-// t4 - t5 : execution deux fois est possible, vu le nombre de jetons
-let t6 = success.fire(from: t5!)
-print("t6 (success) ",t6!) // Transition:  success
+let m4 = exec.fire(from: m3!)
+print("m4 (exec) ",m4!)
+let m5 = exec.fire(from: m4!)
+print("m5 (exec)",m5!) 
+// m4 - m5 : execution deux fois est possible, vu le nombre de jetons
+let m6 = success.fire(from: m5!)
+print("m6 (success) ",m6!) // Transition:  success
 
 // Un jeton est encore dans la place "inProgress" ce qui nous pose un probleme
 // Parce que la tache possible c'est "fail", qui a été deja supprimee du taskPool
@@ -60,18 +60,18 @@ let PlaceSec = correctTaskManager.places.filter{$0.name == "PlaceSec"}[0]
 //On ajoute une nouvelle place
 
 // Execution de la gestionnaire des taches
-let t21 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0, PlaceSec: 0])
-print("t1 (create) ",t21!)
-let t22 = spawn2.fire(from: t21!)
-print("t2 (spawn) ",t22!)
-let t23 = spawn2.fire(from: t22!)
-print("t3 (spawn)",t23!) // t1 - t3 : crée 1 jeton dans taskPool et 2 dans processPool comme auparavant
-let t24 = exec2.fire(from: t23!)
-print("t4 (exec) ",t24!) // t4 : Dans ce nouveau cas, une seule exécution est possible
-let t25 = success2.fire(from: t24!)
-print("t5 (success) ",t25!) // Transition:  success
-let t27 = fail2.fire(from: t24!)
-print("t5 (fail) ",t27!) //  "fail"
+let m21 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0, PlaceSec: 0])
+print("m1 (create) ",m21!)
+let m22 = spawn2.fire(from: m21!)
+print("m2 (spawn) ",m22!)
+let m23 = spawn2.fire(from: m22!)
+print("m3 (spawn)",m23!) // m1 - m3 : crée 1 jeton dans taskPool et 2 dans processPool comme auparavant
+let m24 = exec2.fire(from: m23!)
+print("m4 (exec) ",m24!) // m4 : Dans ce nouveau cas, une seule exécution est possible
+let m25 = success2.fire(from: m24!)
+print("m5 (success) ",m25!) // Transition:  success
+let m27 = fail2.fire(from: m24!)
+print("m5 (fail) ",m27!) //  "fail"
 // La correction cest par le blocage de l'exécution 1 task/1 process
 // et par la creation d'une nouvelle place  "PlaceSec"
 // Donc au final on envoie qu'un seul jeton a "exec"
