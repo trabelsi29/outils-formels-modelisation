@@ -50,3 +50,23 @@ do {
         print(m)
     }
 }
+do{
+  let philosophers = lockFreePhilosophers(n: 5)
+  let graph = philosophers.markingGraph(from: philosophers.initialMarking!)
+  print("1. \(graph!.count)")
+}
+
+do{
+  let philosophers = lockablePhilosophers(n: 5)
+  let graph = philosophers.markingGraph(from: philosophers.initialMarking!)
+  print("2. \(graph!.count)")
+}
+
+do {
+  print("3.")
+  let philosophers = lockablePhilosophers(n: 5)
+  let graph = philosophers.markingGraph(from: philosophers.initialMarking!)
+  for g in graph! {
+    print("\(g.marking)")
+  }
+}
